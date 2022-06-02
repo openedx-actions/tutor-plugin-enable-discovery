@@ -1,0 +1,42 @@
+#------------------------------------------------------------------------------
+# usage: Use tutor to enable the Open edX Discovery service plugin
+#------------------------------------------------------------------------------
+name: enable Discovery plugin for tutor
+description: Github Action to install and enable the Tutor plugin - Open edX Discovery service
+branding:
+  icon: 'cloud'
+  color: 'orange'
+inputs:
+  namespace:
+    description: 'The Kubernetes namesapce to which the Open edX platform environment will be deployed. Example: openedx-prod'
+    required: true
+    type: string
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3.0.2
+
+    # retrieve the MySQL connection parameters that we created in Terraform
+    # and then stored in Kubernetes secrets. These include:
+    #   MYSQL_HOST: mysql.app.mrionline.com
+    #   MYSQL_PORT: "3306"
+    #   OPENEDX_MYSQL_USERNAME: openedx
+    #   OPENEDX_MYSQL_PASSWORD: **************
+    #   MYSQL_ROOT_USERNAME: root
+    #   MYSQL_ROOT_PASSWORD: *************
+    #
+    # Also note that we are using jq to add a prefix of "TUTOR_" to each of the parameter names
+    #
+    # see: https://github.com/Medality-Health/openedx_devops/blob/main/terraform/modules/mysql/main.tf
+    - name: fetch MySQL configuration from Kubernetes secrets
+      run: |-
+        kubectl get secret mysql-discovery -n ${{ inputs.namespace }}  -o json | jq  '.data | map_values(@base64d)' | jq -r 'keys[] as $k | "TUTOR_\($k|ascii_upcase)=\(.[$k])"' >> $GITHUB_ENV
+      shell: bash
+
+    - name: Enable the Discovery plugin
+      run: |-
+        pip install tutor-discovery
+        tutor plugins enable discovery
+        tutor config save
+      shell: bash
