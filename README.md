@@ -55,7 +55,7 @@ jobs:
 
     # This action.
     - name: Enable tutor plugin - Discovery service
-      uses: openedx-actions/tutor-enable-plugin-discovery
+      uses: openedx-actions/tutor-enable-plugin-discovery@v0.0.1
       if: ${{ env.ENABLE_DISCOVERY == 'true' }}
       with:
         namespace: openedx-prod
