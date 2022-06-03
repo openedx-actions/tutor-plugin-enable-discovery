@@ -24,9 +24,6 @@ on: workflow_dispatch
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      ENABLE_DISCOVERY: true
-
     steps:
       # required antecedent
       - uses: actions/checkout@v3.0.2
@@ -39,13 +36,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.THE_NAME_OF_YOUR_AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
+      # install and configure tutor and kubectl
       - name: Configure Github workflow environment
         uses: openedx-actions/tutor-k8s-init@v0.0.1
 
       # This action.
       - name: Enable tutor plugin - Discovery service
         uses: openedx-actions/tutor-enable-plugin-discovery@v0.0.1
-        if: ${{ env.ENABLE_DISCOVERY == 'true' }}
         with:
           namespace: openedx-prod
 ```
