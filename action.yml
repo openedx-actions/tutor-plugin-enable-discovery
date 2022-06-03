@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------
 # usage: Use tutor to enable the Open edX Discovery service plugin
 #------------------------------------------------------------------------------
-name: enable Discovery plugin for tutor
+name: Open edX Tutor k8s enable Discovery plugin
 description: Github Action to install and enable the Tutor plugin - Open edX Discovery service
 branding:
   icon: 'cloud'
