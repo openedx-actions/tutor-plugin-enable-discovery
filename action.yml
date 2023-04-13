@@ -15,7 +15,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout
-      uses: actions/checkout@v3.5.0
+      uses: actions/checkout@v3.5.1
 
     # retrieve the MySQL connection parameters that we created in Terraform
     # and then stored in Kubernetes secrets. These include:
