@@ -37,7 +37,7 @@ runs:
 
     - name: fetch MySQL configuration from Kubernetes secrets
       id: get-secret
-      uses: openedx-actions/tutor-k8s-get-secret@v1.0.0
+      uses: openedx-actions/tutor-k8s-get-secret@v1
       with:
         eks-namespace: ${{ inputs.namespace }}
         eks-secret-name: mysql-discovery
