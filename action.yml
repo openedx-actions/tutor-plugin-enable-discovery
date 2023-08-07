@@ -46,5 +46,6 @@ runs:
       run: |-
         pip install tutor-discovery${{ inputs.tutor-discovery-version != 'latest' && format('=={0}', inputs.tutor-discovery-version) || '' }}
         tutor plugins enable discovery
-        tutor config save --set DISCOVERY_DEFAULT_PARTNER_CODE=openedx
+        tutor config save --set DISCOVERY_DEFAULT_PARTNER_CODE=openedx \
+                          --set OPENEDX_ENABLE_COURSE_DISCOVERY=true \
       shell: bash
